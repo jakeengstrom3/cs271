@@ -16,15 +16,22 @@ int max(int x, int y)
 /* Ex.2: Add [0..100] and return the sum */
 int add100()
 {
-   // YOUR CODE HERE
-   return 0;
+   int sum = 0;
+   for(int i = 1; i < 101; i++){
+      sum = sum + i;
+   }
+   return sum;
 }  
 
 /* Ex.3: Sum the elements in the array */
 int sum(int arr[], int n)
 {
-   // YOUR CODE HERE
-   return 0;
+   int sum = 0;
+   
+   for(int i = 0; i < n; i++){
+      sum = sum + arr[i];
+   }
+   return sum;
 }  
 
 /* Ex.4: Find the largest element in the array */
