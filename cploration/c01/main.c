@@ -3,8 +3,14 @@
 /* Ex.1: Return the larger value */
 int max(int x, int y) 
 {
-   // YOUR CODE HERE
-   return 0;
+   if (x > y)
+   {
+      return x;
+   }
+   else
+   {
+      return y;
+   }
 }
 
 /* Ex.2: Add [0..100] and return the sum */
