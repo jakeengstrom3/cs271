@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <limits.h>
 
 /* Ex.1: Return the larger value */
 int max(int x, int y) 
@@ -17,7 +18,8 @@ int max(int x, int y)
 int add100()
 {
    int sum = 0;
-   for(int i = 1; i < 101; i++){
+   for(int i = 1; i < 101; i++)
+   {
       sum = sum + i;
    }
    return sum;
@@ -28,7 +30,8 @@ int sum(int arr[], int n)
 {
    int sum = 0;
    
-   for(int i = 0; i < n; i++){
+   for(int i = 0; i < n; i++)
+   {
       sum = sum + arr[i];
    }
    return sum;
@@ -37,8 +40,15 @@ int sum(int arr[], int n)
 /* Ex.4: Find the largest element in the array */
 int largest(int arr[], int n)
 {
-   // YOUR CODE HERE    
-   return 0;
+   int largest = INT_MIN;
+   for(int i = 0; i < n; i++)
+   {
+      if(arr[i] > largest)
+      {
+         largest = arr[i];
+      }
+   }   
+   return largest;
 }
 
 /* Provided */
