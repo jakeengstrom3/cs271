@@ -35,8 +35,10 @@ int main(){
 
     if(strcmp(name, prof) < 0){
         printf("%s is before %s\n", name, prof);
-    }else{
+    }else if(strcmp(name,prof) > 0){
         printf("%s is after %s\n", name, prof);
+    }else{
+        printf("%s is %s\n",name, prof);
     }
 
     return 0;
