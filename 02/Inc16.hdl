@@ -13,5 +13,8 @@ CHIP Inc16 {
     OUT out[16];
 
     PARTS:
-    Not(in=in[0], out=out[0]);
+    //Set b[0]=true makes the input b[16] = 0000000000000001
+    Add16(a=in, b[0]=true, out=out);
+
+    
 }   
