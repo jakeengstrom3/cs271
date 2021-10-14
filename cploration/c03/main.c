@@ -24,7 +24,7 @@ int main(int argc, const char *argv[]){
 
     char line[MAX_LINE_LENGTH] = {0};
     unsigned int line_num = 0;
-    printf("hello");
+    
 
     while(fgets(line, sizeof(line), fin)){
         line_num++;
