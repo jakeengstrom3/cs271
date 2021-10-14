@@ -63,12 +63,15 @@ CHIP ALU {
     Not16(in=o0, out=negatedOut);
 
     //Selects to use negated or not
-    Mux16(a=o0, b=negatedOut, sel=no, out=out);
+    Mux16(a=o0, b=negatedOut, sel=no, out=out, out[0..7]=outLow, out[8..15]=outHigh, out[15]=outSign);
+
+    Or8Way(in=outLow, out=notOutLow);
+    Or8Way(in=outHigh, out=notOutHigh);
+    Or(a=notOutLow, b=notOutHigh, out=Orzr);
+    Not(in=Orzr, out=zr);
+    And(a=outSign, b=true, out=ng);
 
 
-
-    //Or8Way(in=c[0..7], out=lowOut);
-    //Or8Way(in=c[8..15], out=highOut);
-    //Or(a=lowOut, b=highOut, out=zr);
-    //And(a=out[15], b=true, out=ng);
+    
+    
 }
