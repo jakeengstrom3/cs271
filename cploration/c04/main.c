@@ -1,4 +1,4 @@
-#include "parser.h";
+#include "parser.h"
 
 int main(int argc, const char *argv[]){
 
@@ -14,7 +14,7 @@ int main(int argc, const char *argv[]){
         exit(EXIT_FAILURE);
     }
 
-    parser.parse(file);
+    parse(file);
 
     fclose(file);
 
