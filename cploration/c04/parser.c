@@ -5,7 +5,7 @@ void parse(FILE * file){
 
     while(fgets(line, sizeof(line), file)){
         strip(line);
-        if(line == NULL){
+        if(*line == '\0'){
             continue;
         }
         else{
@@ -26,6 +26,7 @@ char *strip(char *s){
             s_new[i++] = *s2;
         }
     }
+    //Only adds null character to non-empty lines
     s_new[i] = '\0';
     stpcpy(s, s_new);
     return s;
