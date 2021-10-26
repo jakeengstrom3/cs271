@@ -23,7 +23,7 @@ void parse(FILE * file){
 }
 
 char *strip(char *s){
-    char s_new[sizeof(s) + 1] = "";
+    char s_new[MAX_LINE_LENGTH] = "";
     int i = 0;
 
     for(char *s2 = s; *s2; s2++){
