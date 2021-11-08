@@ -31,39 +31,33 @@ D;JEQ
 D;JGT
 
 (ALL_WHITE) 
-@R0 //R0 contains SCREEN address
-A=M //Look at address contained in R0
-M=0 //Set value of first SCREEN lcation to 0
-
-@R0 //Incriment screen memory location
-M=M+1 
-D=M
-
-//KBD is the memory location directly after SCREEN memory map
-//D = current memory location to write to, A = end of screen (+1)
-//When end of screen minus current screen location is 0, loop to start of the program
-@KBD
-D=A-D 
-@ALL_WHITE
-D;JGT
-
-@INFINITE_LOOP
+@R1
+M=0
+@DRAW
 0;JMP
 
 //Same as (ALL_WHITE), except M=-1
 (ALL_BLACK)
+@R1
+M=-1
+@DRAW
+0;JMP
+
+(DRAW)
+@R1
+D=M
 @R0 
 A=M 
-M=-1
+M=D
 
 @R0 
-M=M+1 
+M=M+1 //Incriment current adderss and store it in D
 D=M
 
 @KBD
-D=A-D 
-@ALL_BLACK
-D;JGT
+D=A-D //Address of (keyboard - current address) will be 0 when we are at the last screen addy
+@DRAW
+D;JGT //Jump to start of DRAW if current adderss is not the end of the screen
 
 @INFINITE_LOOP
 0;JMP
