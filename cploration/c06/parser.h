@@ -35,7 +35,7 @@ typedef struct a_instruction{
     union {
         hack_addr address;
         char *label;
-    }/*Do I need a name here?*/;
+    }addr_or_label;
     bool is_addr;
 } a_instruction;
 
@@ -43,6 +43,6 @@ typedef struct instruction{
     union {
         c_instruction c;
         a_instruction a;
-    } /*Do I need a name here?*/;
+    } instr;
     enum instr_type type;
 } instruction;

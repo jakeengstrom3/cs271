@@ -37,7 +37,7 @@ char *strip(char *s){
     }
     //Only adds null character to non-empty lines
     s_new[i] = '\0';
-    stpcpy(s, s_new);
+    strcpy(s, s_new);
     return s;
 }   
 
