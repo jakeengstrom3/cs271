@@ -89,6 +89,9 @@ bool is_Ctype(const char *line){
 }
 
 bool parse_A_instruction(const char *line, a_instruction *instr){
-    
+    char *s = (char*) malloc(strlen(line));
+    s = line + 1;
+    char *s_end = NULL;
+    long result = strtol(s, &s_end, 10);
 }
 
