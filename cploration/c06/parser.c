@@ -47,7 +47,6 @@ char *extract_label(char *line){
     return line;
 }
 
-
 bool is_Atype(const char *line){
     return line[0] == '@'; 
 }

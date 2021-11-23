@@ -1,4 +1,5 @@
 #include <symtable.h>
+#include "error.h"
 
 int main()
 {        

@@ -39,5 +39,51 @@ CHIP CPU {
         pc[15];          // address of next instruction
 
     PARTS:
-    // Put your code here:
+
+    Not(in=instruction[15], out=isAInstr);
+
+
+    And(a=instruction[15], b=instruction[5], out=loadACinstr);
+    Mux16(a=instruction, b=ALUout, sel=loadACinstr, out=toAReg);
+
+    Or(a=isAInstr, b=loadACinstr, out=loadA); //Load to A if A-instr or loadA type C instruction.
+
+    ARegister(in=toAReg, load=loadA, out=ARegVal, out[0..14]=addressM);
+    And(a=instruction[15], b=instruction[12], out=instrAndA);
+
+    Mux16(a=ARegVal, b=inM, sel=instrAndA, out=toALUfromA);
+
+    And(a=instruction[15], b=instruction[4], out=instrAndD);
+    DRegister(in=ALUout, load=instrAndD, out=DRegVal);
+
+    ALU(x=DRegVal, y=toALUfromA, zx=instruction[11], nx=instruction[10], zy=instruction[9], ny=instruction[8], f=instruction[7], no=instruction[6], out=ALUout, out=outM, zr=zr, ng=ng);
+
+
+
+    //For the Pump stuff
+    And(a=instruction[15], b=instruction[0], out=jmpGRT);
+    And(a=instruction[15], b=instruction[1], out=jmpEQT);
+    And(a=instruction[15], b=instruction[2], out=jmpLST);
+
+    Not(in=zr, out=nzr);
+    Not(in=ng, out=nng);
+
+    And(a=nng, b=nzr, out=GRT);
+    And(a=jmpGRT, b=GRT, out=jmpGRTout);
+
+    And(a=jmpEQT, b=zr, out=jmpEQTout);
+
+    And(a=ng, b=nzr, out=LST);
+    And(a=jmpLST, b=LST, out=jmpLSTout);
+
+    Or(a=jmpEQTout, b=jmpGRTout, out=GTRorEQT);
+    Or(a=GTRorEQT, b=jmpLSTout, out=GTRorEQTorLST);
+
+    And(a=instruction[15],b=instruction[3],out=writeM);
+
+    Not(in=GTRorEQTorLST, out=PCinc);
+
+    PC(in=ARegVal, load=GTRorEQTorLST, reset=reset, inc=PCinc, out[0..14]=pc);
+
+    
 }
