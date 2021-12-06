@@ -12,6 +12,7 @@
 #define MAX_LABEL_LENGTH (MAX_LINE_LENGTH - 2)
 #define MAX_HACK_ADDRESS INT16_MAX
 #define MAX_INSTRUCTION MAX_HACK_ADDRESS
+#define MAX_INSTRUCTION_COUNT 30000
 
 typedef int16_t hack_addr;
 typedef int16_t opcode; 
@@ -28,7 +29,6 @@ typedef struct a_instruction{
 char *strip(char *s);
 char *extract_label(char *line);
 void add_predefined_symbols();
-void parse(FILE * file);
 bool parse_A_instruction(const char *line, a_instruction *instr);
 bool is_Atype(const char *);
 bool is_label(const char *);
@@ -37,7 +37,7 @@ bool is_Ctype(const char *);
 enum instr_type{
     Invalid = -1,
     A_Type,
-    B_Type,
+    C_Type,
 };
 
 typedef struct c_instruction{
@@ -56,5 +56,9 @@ typedef struct instruction{
     } instr;
     enum instr_type type;
 } instruction;
+
+
+int parse(FILE * file, instruction *instructions);
+void parse_C_instruction(char *line, c_instruction *instr);
 
 #endif

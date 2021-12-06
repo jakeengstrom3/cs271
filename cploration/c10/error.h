@@ -10,6 +10,7 @@ enum exitcode{
     EXIT_INVALID_LABEL = 4,
     EXIT_LABEL_ALREADY_EXISTS = 5,
     EXIT_INVALID_A_INSTR = 6,
+    EXIT_INVALID_C_INSTR,
 };
 
 

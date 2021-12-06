@@ -3,13 +3,16 @@
 #include "symtable.h"
 #include "hack.h"
 
-void parse(FILE * file){
+int parse(FILE * file, instruction *instructions){
     char line[MAX_LINE_LENGTH] = "";
     instruction instr;
     unsigned int line_num = 0;
     unsigned int instr_num = 0;
+
+
     add_predefined_symbols();
     symtable_display_table();
+    
 
     while(fgets(line, sizeof(line), file)){
         ++line_num;
@@ -41,12 +44,25 @@ void parse(FILE * file){
                 }
                 inst_type = 'L';
             }else {
+                char tmp_line[MAX_LINE_LENGTH];
+                strcpy(tmp_line, line);
+
+                parse_C_instruction(tmp_line, &instr.instr.c);
+                if (instr.instr.c.comp == COMP_INVALID){
+                    exit_program(EXIT_INVALID_C_INSTR, line_num, line);
+                }else if (instr.instr.c.dest == DEST_INVALID){
+                    exit_program(EXIT_INVALID_C_INSTR, line_num, line);
+                }else if (instr.instr.c.jump = JMP_INVALID){
+                    exit_program(EXIT_INVALID_C_INSTR, line_num, line);
+                }
+                instr.type = C_Type;
                 inst_type = 'C';   
             }
             printf("%c  %s\n", inst_type, line);   
         }
-        ++instr_num;
+        instructions[instr_num++] = instr;    
     }
+    return instr_num;
 }
 
 char *strip(char *s){
@@ -106,5 +122,30 @@ bool parse_A_instruction(const char *line, a_instruction *instr){
         instr->addr_or_label.address = result;
     }
     return true;
+}
+
+void parse_C_instruction(char *line, c_instruction *instr){
+    char *temp;
+    char  *jump;
+    char *dest;
+    char *comp;
+    char *a;
+    temp = strtok(line, ";");
+    jump = strtok(NULL, ";");
+
+    dest = strtok(temp, "=");
+    comp = strtok(NULL, "=");
+    if(comp == NULL){
+        comp = dest;
+    }
+
+    a = line[0] == "1" ? 1 : 0;
+
+    instr->jump = str_to_jumpid(jump);
+    instr->dest = str_to_destid(dest);
+    instr->comp = str_to_compid(comp, a);
+    instr->a = a;
+
+    
 }
 
