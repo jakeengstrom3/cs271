@@ -52,7 +52,7 @@ int parse(FILE * file, instruction *instructions){
                     exit_program(EXIT_INVALID_C_INSTR, line_num, line);
                 }else if (instr.instr.c.dest == DEST_INVALID){
                     exit_program(EXIT_INVALID_C_INSTR, line_num, line);
-                }else if (instr.instr.c.jump = JMP_INVALID){
+                }else if (instr.instr.c.jump == JMP_INVALID){
                     exit_program(EXIT_INVALID_C_INSTR, line_num, line);
                 }
                 instr.type = C_Type;
@@ -129,7 +129,7 @@ void parse_C_instruction(char *line, c_instruction *instr){
     char  *jump;
     char *dest;
     char *comp;
-    char *a;
+    int16_t *a;
     temp = strtok(line, ";");
     jump = strtok(NULL, ";");
 
@@ -139,13 +139,46 @@ void parse_C_instruction(char *line, c_instruction *instr){
         comp = dest;
     }
 
-    a = line[0] == "1" ? 1 : 0;
+    *a = line[0] == '1' ? 1 : 0;
 
     instr->jump = str_to_jumpid(jump);
     instr->dest = str_to_destid(dest);
     instr->comp = str_to_compid(comp, a);
-    instr->a = a;
-
-    
+    instr->a = a;   
 }
 
+
+opcode instruction_to_opcode(c_instruction instr){
+    opcode op = 0;
+    op |= (7 << 13);
+    op |= (instr.a << 11);
+    op |= (instr.comp << 10);
+    op |= (instr.dest << 6);
+    op |= (instr.jump << 3);
+    return op;
+}
+
+void assemble(const char * file_name, instruction* instructions, int num_instructions){
+
+    char *hack_file_name = strcat(file_name, ".hack");
+    FILE *hackFile = fopen(hack_file_name, "w+");
+    instruction instr;
+    for(int i = 0; i < num_instructions; i++){
+        instr = instructions[i];
+        if (instr.type == A_Type){
+            if(!instr.instr.a.is_addr){
+                if (symtable_find(instr.instr.a.addr_or_label.label) == NULL){
+                    symtable_insert(instr.instr.a.addr_or_label.label,
+                                    instr.instr.a.addr_or_label.address);
+                }else{
+                    fputc(symtable_find(instr.instr.a.addr_or_label.label)->addr, hackFile);
+                }
+            }else{
+                fputc(symtable_find(instr.instr.a.addr_or_label.label)->addr, hackFile);
+            }
+        }else{
+            opcode opcode = instruction_to_opcode(instr.instr.c);
+        }
+    }
+    fclose(hackFile);
+}

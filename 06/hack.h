@@ -1,6 +1,24 @@
 #include <stdint.h>
 
 #define NUM_PREDEFINED_SYMBOLS 23
+#define OPCODE_TO_BINARY(opcode) \
+  (opcode & 0x8000 ? '1' : '0'), \
+  (opcode & 0x4000 ? '1' : '0'), \
+  (opcode & 0x2000 ? '1' : '0'), \
+  (opcode & 0x1000 ? '1' : '0'), \
+  (opcode & 0x800 ? '1' : '0'), \
+  (opcode & 0x400 ? '1' : '0'), \
+  (opcode & 0x200 ? '1' : '0'), \
+  (opcode & 0x100 ? '1' : '0'), \
+  (opcode & 0x80 ? '1' : '0'), \
+  (opcode & 0x40 ? '1' : '0'), \
+  (opcode & 0x20 ? '1' : '0'), \
+  (opcode & 0x10 ? '1' : '0'), \
+  (opcode & 0x8 ? '1' : '0'), \
+  (opcode & 0x4 ? '1' : '0'), \
+  (opcode & 0x2? '1' : '0'), \
+  (opcode & 0x1? '1' : '0'), \
+  
 
 typedef struct predefined_symbol{
     char *name;
@@ -121,19 +139,19 @@ static inline jump_id str_to_jumpid(const char *s){
 
     if (s == NULL) {
         id = JMP_NULL;
-    } else if (strcmp(*s,"JGT") == 0 ){
+    } else if (strcmp(s,"JGT") == 0 ){
         id = JGT;
-    } else if (strcmp(*s,"JEQ") == 0 ){
+    } else if (strcmp(s,"JEQ") == 0 ){
         id = JEQ;
-    } else if (strcmp(*s,"JGE") == 0 ){
+    } else if (strcmp(s,"JGE") == 0 ){
         id = JGE;
-    } else if (strcmp(*s,"JLT") == 0 ){
+    } else if (strcmp(s,"JLT") == 0 ){
         id = JLT;
-    } else if (strcmp(*s,"JNE") == 0 ){
+    } else if (strcmp(s,"JNE") == 0 ){
         id = JNE;
-    } else if (strcmp(*s,"JLE") == 0 ){
+    } else if (strcmp(s,"JLE") == 0 ){
         id = JLE;
-    } else if (strcmp(*s,"JMP") == 0 ){
+    } else if (strcmp(s,"JMP") == 0 ){
         id = JMP;
     }
     return id;
@@ -143,19 +161,19 @@ static inline dest_id str_to_destid(const char *s){
 
     if(s==NULL){
         id=JMP_NULL;
-    }else if (strcmp(*s,"M") == 0 ){
+    }else if (strcmp(s,"M") == 0 ){
         id = M;
-    }else if (strcmp(*s,"D") == 0 ){
+    }else if (strcmp(s,"D") == 0 ){
         id = D;
-    }else if (strcmp(*s,"MD") == 0 ){
+    }else if (strcmp(s,"MD") == 0 ){
         id = MD;
-    }else if (strcmp(*s,"A") == 0 ){
+    }else if (strcmp(s,"A") == 0 ){
         id = A;
-    }else if (strcmp(*s,"AM") == 0 ){
+    }else if (strcmp(s,"AM") == 0 ){
         id = AM;
-    }else if (strcmp(*s,"AD") == 0 ){
+    }else if (strcmp(s,"AD") == 0 ){
         id = AD;
-    }else if (strcmp(*s,"AMD") == 0 ){
+    }else if (strcmp(s,"AMD") == 0 ){
         id = AMD;
     }
     return id;
@@ -164,88 +182,88 @@ static inline dest_id str_to_destid(const char *s){
 static inline comp_id str_to_compid(const char *s, int *a){
     comp_id id = COMP_INVALID;
 
-    if(strcmp(*s,"COMP_0") == 0 ){
+    if(strcmp(s,"COMP_0") == 0 ){
         id = COMP_0;
         *a = 0;
-    }else if (strcmp(*s,"COMP_1") == 0 ){
+    }else if (strcmp(s,"COMP_1") == 0 ){
         id = COMP_1;
         *a = 0;
-    }else if (strcmp(*s,"COMP_NEG_1") == 0 ){
+    }else if (strcmp(s,"COMP_NEG_1") == 0 ){
         id = COMP_NEG_1;
         *a = 0;
-    }else if (strcmp(*s,"COMP_D") == 0 ){
+    }else if (strcmp(s,"COMP_D") == 0 ){
         id = COMP_D;
         *a = 0;
-    }else if (strcmp(*s,"COMP_NEG_A") == 0 ){
+    }else if (strcmp(s,"COMP_NEG_A") == 0 ){
         id = COMP_A;
         *a = 0;
-    }else if (strcmp(*s,"COMP_NotD") == 0 ){
+    }else if (strcmp(s,"COMP_NotD") == 0 ){
         id = COMP_NotD;
         *a = 0;
-    }else if (strcmp(*s,"COMP_NotA") == 0 ){
+    }else if (strcmp(s,"COMP_NotA") == 0 ){
         id = COMP_NotA;
         *a = 0;
-    }else if (strcmp(*s,"COMP_NegD") == 0 ){
+    }else if (strcmp(s,"COMP_NegD") == 0 ){
         id = COMP_NegD;
         *a = 0;
-    }else if (strcmp(*s,"COMP_NegA") == 0 ){
+    }else if (strcmp(s,"COMP_NegA") == 0 ){
         id = COMP_NegA;
         *a = 0;
-    }else if (strcmp(*s,"COMP_DPlus1") == 0 ){
+    }else if (strcmp(s,"COMP_DPlus1") == 0 ){
         id = COMP_DPlus1;
         *a = 0;
-    }else if (strcmp(*s,"COMP_APlus1") == 0 ){
+    }else if (strcmp(s,"COMP_APlus1") == 0 ){
         id = COMP_APlus1;
         *a = 0;
-    }else if (strcmp(*s,"COMP_DMinus1") == 0 ){
+    }else if (strcmp(s,"COMP_DMinus1") == 0 ){
         id = COMP_DMinus1;
         *a = 0;
-    }else if (*s == "COMP_AMinus1"){
+    }else if (strcmp(s,"COMP_AMinus1") == 0){
         id = COMP_AMinus1;
         *a = 0;
-    }else if (strcmp(*s,"COMP_DPlusA") == 0 ){
+    }else if (strcmp(s,"COMP_DPlusA") == 0 ){
         id = COMP_DPlusA;
         *a = 0;
-    }else if (strcmp(*s,"COMP_DMinusA") == 0 ){
+    }else if (strcmp(s,"COMP_DMinusA") == 0 ){
         id = COMP_DMinusA;
         *a = 0;
-    }else if (strcmp(*s,"COMP_AMinusD") == 0 ){
+    }else if (strcmp(s,"COMP_AMinusD") == 0 ){
         id = COMP_AMinusD;
         *a = 0;
-    }else if (strcmp(*s,"COMP_DAndA") == 0 ){
+    }else if (strcmp(s,"COMP_DAndA") == 0 ){
         id = COMP_DAndA;
         *a = 0;
-    }else if (strcmp(*s,"COMP_DOrA") == 0 ){
+    }else if (strcmp(s,"COMP_DOrA") == 0 ){
         id = COMP_DOrA;
         *a = 0;
-    }else if (strcmp(*s,"COMP_M") == 0 ){
+    }else if (strcmp(s,"COMP_M") == 0 ){
         id = COMP_M;
         *a = 1;
-    }else if (strcmp(*s,"COMP_NotM") == 0 ){
+    }else if (strcmp(s,"COMP_NotM") == 0 ){
         id = COMP_NotM;
         *a = 1;
-    }else if (strcmp(*s,"COMP_NegM") == 0 ){
+    }else if (strcmp(s,"COMP_NegM") == 0 ){
         id = COMP_NegM;
         *a = 1;
-    }else if (strcmp(*s,"COMP_MPlus1") == 0 ){
+    }else if (strcmp(s,"COMP_MPlus1") == 0 ){
         id = COMP_MPlus1;
         *a = 1;
-    }else if (strcmp(*s,"COMP_MMinus1") == 0 ){
+    }else if (strcmp(s,"COMP_MMinus1") == 0 ){
         id = COMP_MMinus1;
         *a = 1;
-    }else if (strcmp(*s,"COMP_DPlusM") == 0 ){
+    }else if (strcmp(s,"COMP_DPlusM") == 0 ){
         id = COMP_DPlusM;
         *a = 1;
-    }else if (strcmp(*s,"COMP_DMinusM") == 0 ){
+    }else if (strcmp(s,"COMP_DMinusM") == 0 ){
         id = COMP_DMinusM;
         *a = 1;
-    }else if (strcmp(*s,"COMP_MMinusD") == 0 ){
+    }else if (strcmp(s,"COMP_MMinusD") == 0 ){
         id = COMP_MMinusD;
         *a = 1;
-    }else if (strcmp(*s,"COMP_DAndM") == 0 ){
+    }else if (strcmp(s,"COMP_DAndM") == 0 ){
         id = COMP_DAndM;
         *a = 1;
-    }else if (strcmp(*s,"COMP_DOrM") == 0 ){
+    }else if (strcmp(s,"COMP_DOrM") == 0 ){
         id = COMP_DOrM;
         *a = 1;
     }  

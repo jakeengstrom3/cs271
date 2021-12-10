@@ -20,6 +20,8 @@ int main(int argc, const char *argv[]){
     int num_instructions = parse(file, instructions);
 
     fclose(file);
+    
+    assemble(argv[1], instructions, num_instructions);
 
     return 0;
 }
