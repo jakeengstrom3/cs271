@@ -144,7 +144,7 @@ void parse_C_instruction(char *line, c_instruction *instr){
     instr->jump = str_to_jumpid(jump);
     instr->dest = str_to_destid(dest);
     instr->comp = str_to_compid(comp, a);
-    instr->a = a;   
+    instr->a = a;
 }
 
 
@@ -159,7 +159,7 @@ opcode instruction_to_opcode(c_instruction instr){
 }
 
 void assemble(const char * file_name, instruction* instructions, int num_instructions){
-
+    printf("hi");
     char *hack_file_name = strcat(file_name, ".hack");
     FILE *hackFile = fopen(hack_file_name, "w+");
     instruction instr;
