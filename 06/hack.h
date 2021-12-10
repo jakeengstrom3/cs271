@@ -160,7 +160,7 @@ static inline dest_id str_to_destid(const char *s){
     dest_id id = DEST_INVALID;
 
     if(s==NULL){
-        id=JMP_NULL;
+        id=DEST_NULL;
     }else if (strcmp(s,"M") == 0 ){
         id = M;
     }else if (strcmp(s,"D") == 0 ){
